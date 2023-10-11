@@ -65,7 +65,7 @@
 						"type": "string"
 					},
 					"phoneNumber": {
-						"type": "string"
+						"type": "integer"
 					}
 				}
 			},

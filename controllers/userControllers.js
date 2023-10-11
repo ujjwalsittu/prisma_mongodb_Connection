@@ -34,23 +34,30 @@ exports.login = async (req, res, next) => {
   try {
     const { email, password, phoneNumber } = req.body;
 
-    if (!email || !password) {
+    if (!email && !password) {
       return res.status(400).json({ error: "Please provide email and password" });
     }
 
     // Find a user based on email and phoneNumber
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findFirst({
       where: {
         OR: [
           {
-            email,
+            email:email
           },
           {
-            phoneNumber, // Include phoneNumber in the search
+            phoneNumber:phoneNumber, // Include phoneNumber in the search
           },
         ],
       },
     });
+
+
+    // const user = await prisma.user.findUnique({
+    //   where: {
+    //     email: email, // or phoneNumber: phoneNumber
+    //   },
+    // });
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
